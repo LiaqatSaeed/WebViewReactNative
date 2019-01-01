@@ -11,10 +11,28 @@ class LoginForm extends Component {
         Name:''
     }
     onButtonPress = () => {
-        this.props.companyName(this.state.Name)
+       console.log('Clicked')
+        var Query = 'http://localhost:5000/JavaAutomation/getCompanyUrl';
+        return fetch(Query, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/json; charset=utf-8', // <-- Specifying the Content-Type
+            }),
+            body: "CompanyName=" + this.state.Name // <-- Post parameters
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+console.log(responseJson)
+// this.props.companyName(this.state.Name)
+                //callback(responseJson);
+            })
+            .catch((error) => {
+                console.log(error)
+               // Utils.Toaster("Invalid username Password", "#f2dede", "#a94442");
+            });
     };
     changeName = (e)=>{
-        
+  
         this.setState({
             Name:e.nativeEvent.text
         })  
