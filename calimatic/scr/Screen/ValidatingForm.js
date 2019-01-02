@@ -21,7 +21,7 @@ class LoginForm extends Component {
        console.log('Clicked')
        var completeURL = 'https://'+ this.state.Name +'.calimatic.com';
        
-        var Query = 'http://192.168.10.23:45455/JavaAutomation/getCompanyUrl';
+        var Query = 'https://portal.calimatic.com/JavaAutomation/getCompanyUrl';
         return fetch(Query, {
             method: 'POST',
             headers: {
