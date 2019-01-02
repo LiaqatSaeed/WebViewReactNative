@@ -7,30 +7,61 @@ import { View, Text, TextInput, TouchableOpacity, Alert, Button, StyleSheet, Sta
 
 // create a component
 class LoginForm extends Component {
-    state={
-        Name:''
-    }
-    onButtonPress = () => {
+
+    constructor(props) {
+        super(props);
+      
+        this.state = {
+            Name:''
+        };
+      
+        this.onButtonPress = this.onButtonPress.bind(this);
+      }
+    onButtonPress = () => {debugger;
        console.log('Clicked')
-        var Query = 'http://localhost:5000/JavaAutomation/getCompanyUrl';
+       var completeURL = 'https://'+ this.state.Name +'.calimatic.com';
+       
+        var Query = 'http://192.168.10.23:45455/JavaAutomation/getCompanyUrl';
         return fetch(Query, {
             method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/json; charset=utf-8', // <-- Specifying the Content-Type
-            }),
-            body: "CompanyName=" + this.state.Name // <-- Post parameters
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+            body: "CompanyName=" + completeURL// <-- Post parameters
         })
-            .then((response) => response.json())
-            .then((responseJson) => {
-console.log(responseJson)
-// this.props.companyName(this.state.Name)
-                //callback(responseJson);
+            .then((response) => response.json() )
+            .then((responseJson) => {debugger;
+                console.log(responseJson)
+                if(responseJson.CompanyURI == 1){
+                    this.props.companyName(completeURL)
+                }else{
+                    Alert.alert(                       
+                        'Company not found',
+                        [
+                          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                          {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        ],
+                        { cancelable: false }
+                      )
+                }
             })
             .catch((error) => {
                 console.log(error)
+                Alert.alert(
+                    'Error',
+                    'Unable to process your request.Please contact your admin',
+                    [
+                      {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                      {text: 'OK', onPress: () => console.log('OK Pressed')},
+                    ],
+                    { cancelable: false }
+                  )
                // Utils.Toaster("Invalid username Password", "#f2dede", "#a94442");
             });
     };
+
+   
     changeName = (e)=>{
   
         this.setState({
