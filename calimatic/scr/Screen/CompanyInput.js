@@ -46,7 +46,7 @@ class Login extends Component {
         else {
             return (
                 <View style={styles.container}>
-                    <WebView />
+                    <WebView  companyURL={this.state.companyName}/>
                 </View>
             );
         }

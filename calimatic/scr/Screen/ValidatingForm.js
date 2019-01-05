@@ -34,6 +34,7 @@ class LoginForm extends Component {
             .then((responseJson) => {debugger;
                 console.log(responseJson)
                 if(responseJson.CompanyURI == 1){
+                    debugger
                     this.props.companyName(completeURL)
                 }else{
                     Alert.alert(                       
